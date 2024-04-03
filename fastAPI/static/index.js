@@ -1,77 +1,93 @@
-const sqlite3 = require('sqlite3').verbose();
-
-var userLocation = {
-    latitude: null,
-    longitude: null
-};
+var map; // 지도 객체를 전역 변수로 선언
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(savePosition);
+        navigator.geolocation.getCurrentPosition(savePosition, showError);
     } else {
         console.log("Geolocation is not supported by this browser.");
     }
 }
 
 function savePosition(position) {
-    userLocation.latitude = position.coords.latitude;
-    userLocation.longitude = position.coords.longitude;
+    var userLocation = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+    };
+
+    // 사용자 위치를 기반으로 지도 생성
+    var mapContainer = document.getElementById('main_map'), // 지도를 표시할 div 
+        mapOption = {
+            center: new kakao.maps.LatLng(userLocation.latitude, userLocation.longitude), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };        
+
+    map = new kakao.maps.Map(mapContainer, mapOption); // 지도 객체 초기화
+
+    var marker = new kakao.maps.Marker({
+        map: map, 
+        position: new kakao.maps.LatLng(userLocation.latitude, userLocation.longitude)
+    });
 }
+
+function showError(error) {
+    console.warn(`ERROR(${error.code}): ${error.message}`);
+}
+
 getLocation();
 
-// db연결
-const db = new sqlite3.Database('./fishing_db.db', sqlite3.OPEN_READONLY, (err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log('db연결');
-});
+async function changeLocation(pointName) {
+    console.log(pointName);
+    const response = await fetch(`/location/${pointName}`);    
+    const data = await response.json();
 
-// fishingPoint에서 pointName으로 조회
-db.get(`SELECT pointIdx, pointName, address, locationCate, xCoordi, yCoordi, pointInfo, stateName, cityName FROM fishingPoint WHERE pointName = ?`, ['공현진방파제'], (err, row) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    if (row) {
-        userLocation.latitude = row.xCoordi
-        userLocation.longitude = row.yCoordi
-        
-        console.log(`pointIdx: ${row.pointIdx}`);
-        // fishAtPoint에서 해당 pointIdx로 fishIdx 조회
-        db.all(`SELECT fishIdx FROM fishAtPoint WHERE pointIdx = ?`, [row.pointIdx], (err, rows) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            // fishSpecies에서 fishIdx로 fishName 조회
-            rows.forEach((row) => {
-                db.get(`SELECT fishName FROM fishSpecies WHERE fishIdx = ?`, [row.fishIdx], (err, fishRow) => {
-                    if (err) {
-                        return console.error(err.message);
-                    }
-                    console.log(`fishName: ${fishRow.fishName}`);
-                });
-            });
+    if(map) { // map 객체가 초기화된 경우에만 실행
+        var moveLatLon = new kakao.maps.LatLng(data.latitude, data.longitude);
+        map.setCenter(moveLatLon);
+
+        var marker = new kakao.maps.Marker({
+            map: map, 
+            position: new kakao.maps.LatLng(data.latitude, data.longitude)
         });
+
+        var content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            pointName +            
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>';
+
+            var overlay = new kakao.maps.CustomOverlay({
+                content: content,
+                map: map,
+                position: marker.getPosition()       
+            });
+
+            // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                overlay.setMap(map);
+            });
+
+            // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+            function closeOverlay() {
+                overlay.setMap(null);     
+            }
+
+
+
+
     } else {
-        console.log('No results found.');
+        console.log("Map is not initialized");
     }
-
-});
-
-var mapContainer = document.getElementById('main_map'), // 지도를 표시할 div 
-mapOption = {
-    center: new kakao.maps.LatLng(userLocation.latitude, userLocation.longitude), // 지도의 중심좌표
-    level: 11 // 지도의 확대 레벨
-};
-
-var map = new kakao.maps.Map(mapContainer, mapOption);
-
-
-
-// db 연결 종료
-db.close((err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log('db종료');
-});
+}

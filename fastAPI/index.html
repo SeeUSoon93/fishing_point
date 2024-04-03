@@ -13,7 +13,11 @@
     </div>
     <div class="main-content">
         <div class="div1">
-            div1
+            <div id="locationList">
+                <!-- data-name 속성에 장소의 이름을 변수로 추가 -->
+                <button data-name="공현진방파제" onclick="changeLocation(this.getAttribute('data-name'))">공현진방파제</button>
+                <!-- 더 많은 위치 버튼이 있을 수 있음 -->
+            </div>
         </div>
         <div class="div2">
             <div id="main_map"></div>         
