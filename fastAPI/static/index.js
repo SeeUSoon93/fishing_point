@@ -104,7 +104,7 @@ new Vue({
             this.map = new kakao.maps.Map(mapContainer, mapOption);
 
             // 마커 이미지 설정
-            const imageSrc = 'static/img/marker.png',
+            const imageSrc = 'fastAPI/static/img/marker.png',
                 imageSize = new kakao.maps.Size(64, 69),
                 imageOption = { offset: new kakao.maps.Point(27, 69) };
             const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)            
@@ -184,7 +184,7 @@ new Vue({
             this.map = new kakao.maps.Map(mapContainer, mapOption);
 
             // 마커 이미지 설정
-            const imageSrc = 'static/img/marker.png',
+            const imageSrc = 'fastAPI/static/img/marker.png',
                 imageSize = new kakao.maps.Size(64, 69),
                 imageOption = { offset: new kakao.maps.Point(27, 69) };
             const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)            

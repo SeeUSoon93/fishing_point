@@ -11,7 +11,7 @@ logger = logging.getLogger("myapp")
 
 app = create_app()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/fastAPI/static", StaticFiles(directory="static"), name="static")
 database = Database("sqlite:///fp.db")
 
 @app.on_event("startup")
@@ -24,7 +24,7 @@ async def shutdown():
 
 @app.get("/main")
 async def go_main():
-    return FileResponse("index.html")
+    return FileResponse("../index.html")
 
 @app.get("/state_data")
 async def get_state():
