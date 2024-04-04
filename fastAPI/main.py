@@ -58,7 +58,6 @@ async def filter_data(states: List[str] = Query(None), species: List[str] = Quer
     query = "SELECT * FROM point_table"
 
     if species :
-        # 물고기 이름을 받아와서 번호 조회
         species_placeholders = ", ".join([f"'{item}'" for item in species])
         species_query = f"SELECT DISTINCT speciesIdx FROM fish_table WHERE UniqueFishSpecies IN ({species_placeholders})"
         species_results = await database.fetch_all(query=species_query)
