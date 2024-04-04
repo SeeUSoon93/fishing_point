@@ -12,7 +12,8 @@ new Vue({
             addresss:[],
             selectedStates:[],
             selectedSpecie:[],
-            selectedFpInfo: null
+            selectedFpInfo: null,
+            clickSpecies: []
         };
     },
     async created() {
@@ -162,10 +163,17 @@ new Vue({
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                this.selectedFpInfo = data;
+                this.clickSpecies = data.species.join(", ");
+
+                this.selectedFpInfo = data.fpName;
                 this.fpName = data.fpName;
                 this.latitude = data.latitude;
                 this.longitude = data.longitude;
+                this.category = data.category;
+                this.state = data.state;
+                this.fare = data.fare;
+                this.safety = data.safety;
+                this.facilities = data.facilities;
                 this.address = data.address;
                 
             const mapContainer = this.$refs.mapContainer;

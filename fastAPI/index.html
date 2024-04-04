@@ -81,32 +81,32 @@
               <div class="col-12" v-if="selectedFpInfo">
                 <div class="card top-selling overflow-auto">
                   <div class="card-body pb-0">
-                    <h5 class="card-title">{{selectedFpInfo.fpName}} <span>| {{selectedFpInfo.state}}</span></h5>
+                    <h5 class="card-title">{{fpName}} <span>| {{state}}</span></h5>
 
                     <table class="table table-borderless">
                       <tr>
                         <th scope="row">낚시터 유형</th>
-                        <td>{{selectedFpInfo.category}}</td>
+                        <td>{{category}}</td>
                       </tr>
                       <tr>
                         <th scope="row">소재지주소</th>
-                        <td>{{selectedFpInfo.address}}</td>
+                        <td>{{address}}</td>
                       </tr>
                       <tr>
                         <th scope="row">주요 어종</th>
-                        <td>생략</td>
+                        <td>{{clickSpecies}}</td>
                       </tr>
                       <tr>
                         <th scope="row">요금</th>
-                        <td>{{selectedFpInfo.fare}}</td>
+                        <td>{{fare}}</td>
                       </tr>
                       <tr>
                         <th scope="row">안전시설</th>
-                        <td>{{selectedFpInfo.safety}}</td>
+                        <td>{{safety}}</td>
                       </tr>
                       <tr>
                         <th scope="row">편의시설</th>
-                        <td>{{selectedFpInfo.facilities}}</td>
+                        <td>{{facilities}}</td>
                       </tr>
                     </table>                    
                   </div>

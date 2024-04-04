@@ -94,9 +94,17 @@ async def filter_data(states: List[str] = Query(None), species: List[str] = Quer
 @app.get("/fp_info/{fpName}")
 async def get_fp_info(fpName: str):
     query = "SELECT * FROM point_table WHERE fpName = :fpName"
-    result = await database.fetch_one(query=query, values={"fpName": fpName})
-    if result:
-        return result
-    raise HTTPException(status_code=404, detail="Fishing point not found")
+    result = await database.fetch_one(query=query, values={"fpName": fpName})  
+
+    query2 = f"SELECT speciesIdx FROM asso_table WHERE pointIdx = {result['pointIdx']}"    
+    results2 = await database.fetch_all(query=query2)    
+    speciesIdxs = [result["speciesIdx"] for result in results2]
+    species_idx_placeholders = ", ".join([str(idx) for idx in speciesIdxs]) 
+
+    query3 = f"SELECT UniqueFishSpecies FROM fish_table WHERE speciesIdx IN ({species_idx_placeholders})" 
+    results3 = await database.fetch_all(query=query3)
+    species = [result["UniqueFishSpecies"] for result in results3]
+    
+    return JSONResponse(content={"fpName": result['fpName'],"category": result['category'], "address": result['address'],"state": result['state'],"fare": result['fare'],"safety": result['safety'],"facilities": result['facilities'],"longitude": result['longitude'],"latitude": result['latitude'], "species": species})
 
 
