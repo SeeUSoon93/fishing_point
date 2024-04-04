@@ -971,7 +971,7 @@ td {
   text-align: left;
 }
 
-.fpList:hover { cursor : url(img/cus.png) 20 30; }
+.fpList:hover { cursor : url("img/cus.png"), auto; }
 
 /*--------------------------------------------------------------
 # Icons list page
