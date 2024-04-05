@@ -34,7 +34,7 @@ def weather_info(lat: float, lon: float):
 
     weather_response = requests.get(f'''http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey={encodingKey}&numOfRows={numOfRows}&pageNo={pageNo}&base_date={today}&base_time={nowTime}&nx={lat}&ny={lon}''')
     return weather_response.json()
-
+# 날씨 하는중
 @router.get("/wether_info/{fpName}")
 async def get_wether_info(fpName: str):
     query = "SELECT latitude, longitude FROM point_table WHERE fpName = :fpName"

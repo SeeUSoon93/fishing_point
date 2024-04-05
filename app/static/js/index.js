@@ -230,25 +230,10 @@ new Vue({
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                this.specie_list = data.species.join(', ');
-                this.click_point = data.fpName;
 
-                this.fpName = data.fpName;
-                this.latitude = data.latitude;
-                this.longitude = data.longitude;
-                this.category = data.category;
-                this.state = data.state;
-                this.fare = data.fare;
-                this.safety = data.safety;
-                this.facilities = data.facilities;
-                this.address = data.address;
-
-                // 지도 이동하기
-                const mapContainer = this.$refs.mapContainer;
-                const mapOption = {
-                    center: new kakao.maps.LatLng(this.latitude, this.longitude),
-                    level: 3
-                };
-        
+            } catch (error) {
+                    console.error('There was an error fetching the species:', error);
+            }
+        }        
     }
 });
