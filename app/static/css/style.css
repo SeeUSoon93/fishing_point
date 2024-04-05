@@ -1,9 +1,44 @@
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 300;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot');
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansLight.ttf') format("truetype");
+  font-display: swap;
+} 
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 500;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+  font-display: swap;
+} 
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 700;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.eot');
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.ttf') format("truetype");
+  font-display: swap;
+} 
+
 :root {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'GmarketSans'!important;
+  font-weight: 500;
   background: #f6f9ff;
   color: #444444;
 }
@@ -21,15 +56,6 @@ a:hover {
 .map-container {
   height: auto;
   width: auto;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Nunito", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -57,21 +83,22 @@ h6 {
   margin-bottom: 30px;
   border: none;
   border-radius: 5px;
-  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+  box-shadow: 0px 0 30px rgba(123, 123, 123, 0.1);
 }
 
 .card-title {
-  padding: 20px 0 15px 0;
+  padding: 10px 20px 15px 0;
   font-size: 18px;
-  font-weight: 500;
-  color: #012970;
-  font-family: "Poppins", sans-serif;
+  color: #324970;
+  font-family: 'GmarketSans'!important;
+  font-weight: 700;
 }
 
 .card-title span {
   color: #899bbd;
   font-size: 14px;
-  font-weight: 400;
+  font-family: 'GmarketSans'!important;
+  font-weight: 300;
 }
 
 .card-body {
@@ -94,7 +121,6 @@ h6 {
   color: #4154f1;
   border-bottom: 2px solid #4154f1;
 }
-
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -109,7 +135,7 @@ h6 {
 }
 
 .logo img {
-  max-height: 30px;
+  max-height: 40px;
   margin-right: 6px;
 }
 
@@ -120,14 +146,11 @@ h6 {
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
   padding-left: 20px;
-  /* Toggle Sidebar Button */
-  /* Search Bar */
 }
 
 .header {
   font-size: 32px;
   padding-left: 10px;
-  cursor: pointer;
   color: #012970;
 }
 
@@ -151,10 +174,6 @@ h6 {
     opacity: 0;
   }
 }
-
-/*--------------------------------------------------------------
-# Sidebar
---------------------------------------------------------------*/
 .sidebar {
   position: fixed;
   top: 60px;
@@ -188,9 +207,7 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-
-  #main,
-  #footer {
+  #main {
     margin-left: 300px;
   }
 }
@@ -210,19 +227,10 @@ h6 {
 .sidebar-nav .nav-item {
   margin-bottom: 5px;
 }
-
-.sidebar-nav .nav-heading {
-  font-size: 11px;
-  text-transform: uppercase;
-  color: #899bbd;
-  font-weight: 600;
-  margin: 10px 0 5px 15px;
-}
-
 .sidebar-nav .nav-link {
   display: flex;
   align-items: center;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   color: #4154f1;
   transition: 0.3;
@@ -232,7 +240,7 @@ h6 {
 }
 
 .sidebar-nav .nav-link i {
-  font-size: 16px;
+  font-size: 18px;
   margin-right: 10px;
   color: #4154f1;
 }
@@ -247,7 +255,6 @@ h6 {
 }
 
 .sidebar-nav .nav-link:hover {
-  color: #4154f1;
   background: #f6f9ff;
 }
 
@@ -269,45 +276,15 @@ h6 {
   margin: 0;
   list-style: none;
 }
-
-.sidebar-nav .nav-content a {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #012970;
-  transition: 0.3;
-  padding: 10px 0 10px 40px;
-  transition: 0.3s;
+.form-check-input {
+  margin-left: 30px;
 }
-
-.sidebar-nav .nav-content a i {
-  font-size: 6px;
-  margin-right: 8px;
-  line-height: 0;
-  border-radius: 50%;
+.table th {
+  width: 15%; /* 고정 너비를 원할 경우 사용 */
 }
-
-.sidebar-nav .nav-content a:hover,
-.sidebar-nav .nav-content a.active {
-  color: #4154f1;
+.table td {
+  text-align: left; /* 콘텐츠를 왼쪽 정렬하려면 사용 */
 }
-
-.sidebar-nav .nav-content a.active i {
-  background-color: #4154f1;
-}
-
-/*--------------------------------------------------------------
-# board
---------------------------------------------------------------*/
-th {
-  text-align: right;
-}
-
-td {
-  text-align: left;
-}
-
 .fpList:hover {
-  cursor: url("img/cus.png"), auto;
+  cursor: url("../img/cus.png"), auto;
 }
