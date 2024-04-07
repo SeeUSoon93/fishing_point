@@ -112,37 +112,44 @@
                             <div class="col-12" v-if="click_point">
                                 <div class="card point-wether overflow-auto">
                                     <div class="card-body pb-0">
-                                        <h5 class="card-title">날씨정보 <span>| Weather Information</span></h5>
-
-                                        <table class="table table-borderless">
-                                            <tr>
-                                                <th scope="row">낚시터 유형</th>
-                                                <td>{{category}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">소재지주소</th>
-                                                <td>{{address}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">주요 어종</th>
-                                                <td>{{specie_list}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">요금</th>
-                                                <td>{{fare}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">안전시설</th>
-                                                <td>{{safety}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">편의시설</th>
-                                                <td>{{facilities}}</td>
-                                            </tr>
-                                        </table>
+                                        <h5 class="card-title">날씨 <span>| Weather Information</span></h5>
+                                        <div v-for="(dailyWeathers, date) in groupedWeatherData" :key="date">
+                                            <div class="card">
+                                                <div class="card-header text-center">
+                                                    {{ date }}
+                                                </div>                            
+                                                <div class="card-body">
+                                                    <table class="table table-borderless">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">시간</th>
+                                                                <th scope="col">날씨</th>
+                                                                <th scope="col">온도</th>
+                                                                <th scope="col">습도</th>
+                                                                <th scope="col">강수확률</th>
+                                                                <th scope="col">강수량</th>
+                                                                <th scope="col">풍속</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="(weather, index) in dailyWeathers" :key="index">
+                                                                <td>{{ weather.time }}</td>
+                                                                <td>{{ weather.weather_condition }}</td>
+                                                                <td>{{ weather.temperature }}</td>
+                                                                <td>{{ weather.humidity }}</td>
+                                                                <td>{{ weather.precip_probability }}</td>
+                                                                <td>{{ weather.precipitation }}</td>
+                                                                <td>{{ weather.wind_speed }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                              
 
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.db.database import database
-import requests
-import datetime
+from app.api.method import weather
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
@@ -27,23 +27,14 @@ async def get_detail_info(fpName: str):
 
     return {"error": "not found"}
 
-def weather_info(lat: float, lon: float):
-    now = datetime.datetime.now()
-    today = now.strftime("%Y%m%d")    
-    nowTime = now.strftime("%H00")
-
-    weather_response = requests.get(f'''http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey={encodingKey}&numOfRows={numOfRows}&pageNo={pageNo}&base_date={today}&base_time={nowTime}&nx={lat}&ny={lon}''')
-    return weather_response.json()
-# 날씨 하는중
-@router.get("/wether_info/{fpName}")
-async def get_wether_info(fpName: str):
+@router.get("/weather_info/{fpName}")
+async def get_weather_info(fpName: str):
     query = "SELECT latitude, longitude FROM point_table WHERE fpName = :fpName"
     result = await database.fetch_one(query=query, values={"fpName": fpName})
 
     if result:
-        latitude = [result['latitude'] for latitude in result]
-        longitude = [result['longitude'] for longitude in result]
-        weather_result = weather_info(latitude, longitude)
-        return weather_result
+        weather_result = weather.weather_info(result['latitude'], result['longitude'])
+        weather_data = weather_result.to_dict(orient='records')
+        return weather_data
 
     return {"error": "not found"}

@@ -6,14 +6,30 @@ new Vue({
             fpName_list: [], latitude_list: [], longitude_list: [], address_list : [],
             map: null,
             selectedStates: [], selectedSpecie : [], clickSpecies : [],
-            click_point:null, fpName: null, state: null, category: null, address: null, fare: null, safety: null, facilities : null
+            click_point:null, fpName: null, state: null, category: null, address: null, fare: null, safety: null, facilities : null,            
+            groupedWeatherByDate:{}, weather_list: []
         };
+    },
+    computed: {
+        groupedWeatherData() {
+            if (!Array.isArray(this.weather_list)) {
+                return {}; // weather_list가 배열이 아니면 빈 객체 반환
+            }
+            const grouped = {};
+            this.weather_list.forEach((weather) => {
+                const date = weather.date;
+                if (!grouped[date]) {
+                    grouped[date] = [];
+                }
+                grouped[date].push(weather);
+            });
+            return grouped;
+        }
     },
     async created() {
         await this.get_sidebar_data();
         await this.get_point_data();
         await this.fetchFpInfo();
-        await this.wetherInfo();
     },
     methods: {
         async get_sidebar_data() {
@@ -152,7 +168,8 @@ new Vue({
         
         async fetchFpInfo(fpName) {
             try {              
-                const response = await fetch(`/detail_info/${fpName}`);                              
+                const response = await fetch(`/detail_info/${fpName}`);
+                this.weatherInfo(fpName)
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -223,17 +240,18 @@ new Vue({
             }
         },
 
-        async wetherInfo(fpName) {
+        async weatherInfo(fpName) {
             try {          
-                const response = await fetch(`/wether_info/${fpName}`);                              
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-
+              const response = await fetch(`/weather_info/${fpName}`);
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const data = await response.json();
+              this.weather_list = data;
+          
             } catch (error) {
-                    console.error('There was an error fetching the species:', error);
+              console.error('There was an error fetching the species:', error);
             }
-        }        
+        }
     }
 });
