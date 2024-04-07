@@ -7,7 +7,8 @@ new Vue({
             map: null,
             selectedStates: [], selectedSpecie : [], clickSpecies : [],
             click_point:null, fpName: null, state: null, category: null, address: null, fare: null, safety: null, facilities : null,            
-            groupedWeatherByDate:{}, weather_list: []
+            groupedWeatherByDate:{}, weather_list: [],
+            searchWord: '', searchResults:[]
         };
     },
     computed: {
@@ -251,6 +252,24 @@ new Vue({
           
             } catch (error) {
               console.error('There was an error fetching the species:', error);
+            }
+        },
+        async search(){
+            try {
+                const response = await fetch(`/search/${encodeURIComponent(this.searchWord)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                this.searchResults = data; // 검색 결과를 저장
+
+                this.fpName_list = data.fpName;
+                this.latitude_list = data.latitude;
+                this.longitude_list = data.longitude;
+                this.address_list = data.address;
+                this.initMap();
+            } catch (error) {
+                console.error('There was an error during the search:', error);
             }
         }
     }

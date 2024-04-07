@@ -27,6 +27,10 @@
                 <a href="#" class="logo d-flex align-items-center">
                     <img src="../static/img/logo.png" alt="">
                 </a>
+                <form class="d-flex" role="search" @submit.prevent="search">
+                    <input class="form-control form-control-sm" v-model="searchWord" type="search" placeholder="검색어를 입력하세요" aria-label="Search">
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-search"></i></button>
+                </form>
             </div>
         </header>
 
